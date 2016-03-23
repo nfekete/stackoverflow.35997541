@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" debug="false" scanPeriod="1 seconds">
+	<!-- http://logback.qos.ch/manual/configuration.html -->
+
+	<!-- To enable JMX Management -->
+	<jmxConfigurator />
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.mainco.subco" level="debug" />
+	<logger name="org.hibernate.SQL" level="debug" />
+ 	
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+	
+</configuration>

@@ -1,0 +1,61 @@
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="
+	    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    "
+>
+
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="packagesToScan" value="org.mainco.subco" />
+	    <property name="jpaVendorAdapter">
+	        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+	    </property>
+	    <property name="dataSource" ref="dataSource"/>
+	    <property name="jpaPropertyMap" ref="jpaPropertyMap" />
+	</bean>
+	
+	
+	
+	<tx:annotation-driven />
+	
+<!-- 	<cache:annotation-driven key-generator="cacheKeyGenerator" /> -->
+<!-- 	<bean id="cacheKeyGenerator" class="org.mainco.subco.myproject.util.CacheKeyGenerator" /> -->
+	
+<!-- 	<bean id="cacheManager" -->
+<!-- 	        class="org.springframework.cache.ehcache.EhCacheCacheManager" -->
+<!-- 	        p:cacheManager-ref="ehcache"/> -->
+	
+<!-- 	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" -->
+<!-- 	        p:configLocation="classpath:ehcache.xml" -->
+<!-- 	        p:shared="true" /> -->
+	
+	<util:map id="jpaPropertyMap">
+	    <entry key="hibernate.show_sql" value="false" />
+	    <entry key="hibernate.hbm2ddl.auto" value="create"/>
+<!-- 	        <entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/> -->
+<!-- 	        <entry key="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" /> -->
+	        <entry key="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+	        <entry key="hibernate.cache.provider_class" value="org.hibernate.cache.EhCacheProvider"/>
+	        <entry key="hibernate.cache.use_second_level_cache" value="true" />
+<!-- 	        <entry key="javax.persistence.sharedCache.mode" value="ENABLE_SELECTIVE" /> -->
+	        <entry key="hibernate.cache.use_query_cache" value="false" />
+	        <entry key="hibernate.generate_statistics" value="false" />
+	</util:map>
+	
+	<bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+	    <property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</bean>
+	
+</beans>
